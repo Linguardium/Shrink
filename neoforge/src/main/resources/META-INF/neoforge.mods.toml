@@ -9,7 +9,7 @@ version = "${version}"
 displayName = "Shrink"
 authors = "Gigabit101"
 description = '''
-This is an example description! Tell everyone what your mod is about!
+Honey I shrunk the children
 '''
 #logoFile = ""
 
