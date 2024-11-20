@@ -128,7 +128,7 @@ public class ItemShrinkBottle extends Item
         // TODO: remove legacy component support
         ShrinkComponentUtils.convertLegacyDataComponent(stack);
         CustomData data = stack.get(DataComponents.ENTITY_DATA);
-        if (data != null && !data.getUnsafe().contains("id")) stack.remove(DataComponents.ENTITY_DATA);
+        if (data != null && !data.contains("id")) stack.remove(DataComponents.ENTITY_DATA);
         Component name = stack.get(ShrinkComponentTypes.ENTITY_NAME.get());
         if (!stack.has(DataComponents.ENTITY_DATA) || (name != null && name.getString().isBlank())) stack.remove(ShrinkComponentTypes.ENTITY_NAME.get());
     }
