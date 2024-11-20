@@ -4,6 +4,7 @@ import dev.architectury.event.EventResult;
 import dev.architectury.event.events.client.ClientLifecycleEvent;
 import dev.architectury.event.events.common.InteractionEvent;
 import dev.architectury.platform.Platform;
+import net.creeperhost.polylib.PolyLib;
 import net.creeperhost.polylib.config.ConfigBuilder;
 import net.fabricmc.api.EnvType;
 import net.gigabit101.shrink.api.ShrinkAPI;
@@ -26,6 +27,9 @@ public class Shrink
 
     public static void init()
     {
+        // initialize PolyLib's item components
+        PolyLib.initPolyItemData();
+
         configBuilder = new ConfigBuilder(MOD_ID, Platform.getConfigFolder().resolve(MOD_ID + ".json5"), new ShrinkConfig());
         shrinkConfig = (ShrinkConfig) configBuilder.getConfigData();
 

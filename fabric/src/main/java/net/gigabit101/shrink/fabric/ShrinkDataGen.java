@@ -30,6 +30,8 @@ public class ShrinkDataGen implements DataGeneratorEntrypoint
             provider.add(ModItems.SHRINKING_DEVICE.get(), "Personal Shrinking Device", ModuleType.COMMON);
             provider.add(ModItems.SHRINK_BOTTLE.get(), "Glass Bottle", ModuleType.COMMON);
             provider.add("item.mob_bottle.tooltip_empty", "Right-click on a shrunken entity with a glass bottle to capture", ModuleType.COMMON);
+            provider.add("item.mob_bottle.tooltip","Contains : %s", ModuleType.COMMON);
+            provider.add("item.mob_bottle.tooltip_with_name","Contains : %s (%s)", ModuleType.COMMON);
             provider.add("key.shrink.category", "Shrink", ModuleType.COMMON);
             provider.add("key.shrink.shrink", "Toggle Shrink", ModuleType.COMMON);
             provider.add("shrink.deny_shrink", "Blocked shrinking of entity due to deny tag", ModuleType.COMMON);
