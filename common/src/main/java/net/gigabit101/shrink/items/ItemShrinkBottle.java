@@ -1,5 +1,6 @@
 package net.gigabit101.shrink.items;
 
+import net.gigabit101.shrink.api.ShrinkAPI;
 import net.gigabit101.shrink.init.ModItems;
 import net.gigabit101.shrink.init.ShrinkComponentTypes;
 import net.gigabit101.shrink.items.components.ShrinkComponentUtils;
@@ -31,6 +32,25 @@ public class ItemShrinkBottle extends Item
         super(new Properties().stacksTo(1));
     }
 
+    // if a player somehow gets an empty mob bottle, let it work like a regular bottle for capture.
+    @Override
+    public @NotNull InteractionResult interactLivingEntity(ItemStack stack, Player player, LivingEntity interactionTarget, InteractionHand usedHand) {
+        InteractionResult result = onInteractWithEntity(stack,player,interactionTarget,usedHand);
+        if (result.consumesAction()) return result;
+        return super.interactLivingEntity(stack, player, interactionTarget, usedHand);
+    }
+
+    // Handles usages with items that should generate a bottled mob
+    public static InteractionResult onInteractWithEntity(ItemStack stack, Player player, LivingEntity livingEntity, InteractionHand hand) {
+        if(ShrinkAPI.isEntityShrunk(livingEntity))
+        {
+            ItemStack output = ItemShrinkBottle.setContainedEntity(new ItemStack(ModItems.SHRINK_BOTTLE), livingEntity);
+            player.setItemInHand(hand, ItemUtils.createFilledResult(stack, player, output, true));
+            return InteractionResult.SUCCESS;
+        }
+        return InteractionResult.PASS;
+    }
+
     @Override
     public @NotNull InteractionResult useOn(UseOnContext context)
     {
@@ -40,8 +60,8 @@ public class ItemShrinkBottle extends Item
         InteractionHand hand = context.getHand();
         BlockPos blockPos = context.getClickedPos().relative(context.getClickedFace());
 
-        if (!containsEntity(stack)) return InteractionResult.FAIL; // if the bottle doesnt have an entity in it
-        if (stack.isEmpty()) return InteractionResult.FAIL; // if something called this method with an empty stack
+        if (!containsEntity(stack)) return super.useOn(context); // if the bottle doesnt have an entity in it
+        if (stack.isEmpty()) return super.useOn(context); // if something called this method with an empty stack
         if (!(world instanceof ServerLevel serverWorld)) return InteractionResult.SUCCESS; // clientside or custom Level implementation + casting
 
         // Spawn the entity if the entity type lookup succeeds, otherwise fail the usage

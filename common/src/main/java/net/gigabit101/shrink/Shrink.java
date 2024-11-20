@@ -7,14 +7,12 @@ import dev.architectury.platform.Platform;
 import net.creeperhost.polylib.PolyLib;
 import net.creeperhost.polylib.config.ConfigBuilder;
 import net.fabricmc.api.EnvType;
-import net.gigabit101.shrink.api.ShrinkAPI;
 import net.gigabit101.shrink.init.ModContainers;
 import net.gigabit101.shrink.init.ModItems;
 import net.gigabit101.shrink.init.ShrinkComponentTypes;
 import net.gigabit101.shrink.items.ItemShrinkBottle;
 import net.gigabit101.shrink.network.PacketHandler;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 
@@ -46,22 +44,10 @@ public class Shrink
 
         InteractionEvent.INTERACT_ENTITY.register((player, entity, hand) ->
         {
-            if(!player.getItemInHand(hand).isEmpty() && player.getItemInHand(hand).getItem() == Items.GLASS_BOTTLE)
-            {
-                if(entity instanceof LivingEntity livingEntity)
-                {
-                    if(ShrinkAPI.isEntityShrunk(livingEntity))
-                    {
-                        player.getItemInHand(hand).shrink(1);
-                        ItemStack output = ItemShrinkBottle.setContainedEntity(new ItemStack(ModItems.SHRINK_BOTTLE), livingEntity);
-                        boolean added = player.getInventory().add(output);
-                        if(!added)
-                        {
-                            ItemEntity itemEntity = new ItemEntity(player.level(), player.blockPosition().getX(), player.blockPosition().getY(), player.blockPosition().getZ(), output);
-                            player.level().addFreshEntity(itemEntity);
-                            return EventResult.pass();
-                        }
-                    }
+            ItemStack stack = player.getItemInHand(hand);
+            if(stack.is(Items.GLASS_BOTTLE) && entity instanceof LivingEntity livingEntity) {
+                if (ItemShrinkBottle.onInteractWithEntity(stack, player, livingEntity, hand).consumesAction()) {
+                    return EventResult.interruptTrue();
                 }
             }
             return EventResult.pass();
