@@ -42,7 +42,7 @@ public class ItemShrinkBottle extends Item
 
     // Handles usages with items that should generate a bottled mob
     public static InteractionResult onInteractWithEntity(ItemStack stack, Player player, LivingEntity livingEntity, InteractionHand hand) {
-        if(ShrinkAPI.isEntityShrunk(livingEntity))
+        if(ShrinkAPI.canCaptureEntity(livingEntity))
         {
             ItemStack output = ItemShrinkBottle.setContainedEntity(new ItemStack(ModItems.SHRINK_BOTTLE), livingEntity);
             player.setItemInHand(hand, ItemUtils.createFilledResult(stack, player, output, true));

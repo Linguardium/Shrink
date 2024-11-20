@@ -9,6 +9,7 @@ import net.creeperhost.polylib.config.ConfigBuilder;
 import net.fabricmc.api.EnvType;
 import net.gigabit101.shrink.init.ModContainers;
 import net.gigabit101.shrink.init.ModItems;
+import net.gigabit101.shrink.init.ModTagKeys;
 import net.gigabit101.shrink.init.ShrinkComponentTypes;
 import net.gigabit101.shrink.items.ItemShrinkBottle;
 import net.gigabit101.shrink.network.PacketHandler;
@@ -36,7 +37,7 @@ public class Shrink
         ModContainers.CONTAINERS.register();
         ShrinkComponentTypes.COMPONENTS.register();
         PacketHandler.init();
-
+        ModTagKeys.init();
         if(Platform.getEnv() == EnvType.CLIENT)
         {
             ClientLifecycleEvent.CLIENT_SETUP.register(instance -> ShrinkClient.init());
